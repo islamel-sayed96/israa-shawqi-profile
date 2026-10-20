@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { ui, asset, type Lang } from '../i18n/ui';
+import { stores } from '../data/stores';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+---
+<Base lang={lang} page="work" title={t.meta.work.title} description={t.meta.work.description}>
+  <section class="page-head wrap">
+    <div class="label">{t.workLabel}</div>
+    <h1 data-hero-fade>{t.workTitle}</h1>
+    <p class="lede" data-hero-fade>{t.workPageLede}</p>
+  </section>
+
+  <div class="wrap cases">
+    {stores.map((store, i) => {
+      const s = t.stores[store.key];
+      return (
+        <article class="case" data-reveal>
+          <a class="browser big" href={store.url} target="_blank" rel="noopener" aria-label={`${t.visit}: ${store.name}`} data-tilt>
+            <span class="browser-bar" dir="ltr">
+              <span class="dots"><i></i><i></i><i></i></span>
+              <span class="url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>{store.domain}</span>
+            </span>
+            <span class="browser-view">
+              <img
+                src={asset(`work/${store.image}-1400.webp`)}
+                srcset={`${asset(`work/${store.image}-800.webp`)} 800w, ${asset(`work/${store.image}-1400.webp`)} 1400w`}
+                sizes="(max-width: 900px) 92vw, 760px"
+                alt={`${store.name} — ${s.niche}`}
+                width="1400" height="788" loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
+            </span>
+          </a>
+          <div class="case-info">
+            <span class="case-num">0{i + 1}</span>
+            <h2>{store.name}</h2>
+            <dl class="facts">
+              <div><dt>{t.nicheLabel}</dt><dd>{s.niche}</dd></div>
+              <div><dt>{t.marketLabel}</dt><dd>{t.market}</dd></div>
+            </dl>
+            <p>{s.text}</p>
+            <h3>{t.handledTitle}</h3>
+            <ul class="checks">{s.handled.map((h) => <li>{h}</li>)}</ul>
+            <a class="btn solid" href={store.url} target="_blank" rel="noopener">{t.visit} <span class="arrow" aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+
+  <CtaBand lang={lang} />
+</Base>

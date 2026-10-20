@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { ui, asset, type Lang } from '../i18n/ui';
+import { site, toolGroups } from '../data/site';
+import { stores } from '../data/stores';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+---
+<Base lang={lang} page="about" title={t.meta.about.title} description={t.meta.about.description}>
+  <section class="wrap about">
+    <div class="about-photo" data-hero-fade>
+      <img src={asset('israa.webp')} alt={site.fullName} width="400" height="400" fetchpriority="high" decoding="async" />
+      <span class="photo-tag">{t.tag}</span>
+    </div>
+    <div class="about-text">
+      <div class="label">{t.aboutLabel}</div>
+      <h1 data-hero-fade>{t.aboutTitle}</h1>
+      {t.bio.map((p) => <p data-hero-fade>{p}</p>)}
+      <div class="mini-stats" data-hero-fade>
+        <div><b>3+</b><span>{t.stats.stores}</span></div>
+        <div><b>{t.basedValue}</b><span>{t.stats.based}</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="tools-h">
+    <div class="sec-head"><h2 id="tools-h">{t.toolsTitle}</h2></div>
+    <div class="toolkit">
+      {toolGroups.map((g) => (
+        <div class="tool-group" data-reveal>
+          <h3>{t.toolGroups[g.key]}</h3>
+          <div class="tools-list">{g.tools.map((tool) => <span class="tool-chip">{tool}</span>)}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="why-h">
+    <div class="about-why" data-reveal>
+      <h2 id="why-h">{t.whyTitle}</h2>
+      <ul class="checks light">{t.why.map((w) => <li>{w}</li>)}</ul>
+    </div>
+    <div class="niches">
+      {stores.map((s) => (
+        <a class="niche" href={s.url} target="_blank" rel="noopener" data-reveal>
+          <span>{t.stores[s.key].niche}</span>
+          <b>{s.name}</b>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>

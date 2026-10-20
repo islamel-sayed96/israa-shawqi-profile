@@ -1,0 +1,48 @@
+---
+// The "store admin" panel next to the hero. Purely decorative: an illustration of
+// the daily work (orders, fulfillment, inbox), animated by src/scripts/main.ts.
+import { ui, type Lang } from '../i18n/ui';
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+const d = t.dash;
+// Bar heights for the little weekly chart (deterministic so every build matches).
+const bars = [38, 52, 44, 66, 58, 74, 88];
+const days = lang === 'ar' ? ['س', 'ح', 'ن', 'ث', 'ر', 'خ', 'ج'] : ['S', 'S', 'M', 'T', 'W', 'T', 'F'];
+---
+<figure class="dash" aria-hidden="true" data-dash>
+  <div class="dash-card">
+    <div class="dash-top">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="dash-title">{d.store}</span>
+      <span class="dash-live"><i></i>{d.today}</span>
+    </div>
+
+    <div class="dash-kpis">
+      <div class="kpi"><b data-kpi="24">24</b><span>{d.kpis[0]}</span></div>
+      <div class="kpi"><b data-kpi="186">186</b><span>{d.kpis[1]}</span></div>
+      <div class="kpi"><b data-kpi-down="0">0</b><span>{d.kpis[2]}</span></div>
+    </div>
+
+    <div class="dash-chart">
+      {bars.map((h, i) => (
+        <span class="bar" style={`--h:${h}%`}><i></i><small>{days[i]}</small></span>
+      ))}
+    </div>
+
+    <div class="dash-feed">
+      <div class="feed-head">{d.feedTitle}</div>
+      <ul data-feed>
+        {d.events.map((e, i) => (
+          <li class={i > 3 ? 'queued' : ''}>
+            <span class="ev-id" dir="ltr">{e.id}</span>
+            <span class="ev-body"><b>{e.item}</b><small>{e.store}</small></span>
+            <span class={`pill ${e.status}`}>{d.status[e.status]}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="dash-toast"><span class="check">✓</span>{d.toast}</div>
+  <figcaption>{d.caption}</figcaption>
+</figure>

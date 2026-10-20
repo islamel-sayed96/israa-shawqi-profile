@@ -1,0 +1,108 @@
+---
+import Base from '../layouts/Base.astro';
+import StoreDash from '../components/StoreDash.astro';
+import StoreCard from '../components/StoreCard.astro';
+import Icon from '../components/Icon.astro';
+import Contact from '../components/Contact.astro';
+import { ui, path, asset, type Lang } from '../i18n/ui';
+import { site, tools } from '../data/site';
+import { stores } from '../data/stores';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+---
+<Base lang={lang} page="" title={t.meta.home.title} description={t.meta.home.description}>
+  <link slot="head" rel="preload" as="image" href={asset('israa-260.webp')} type="image/webp" fetchpriority="high" />
+
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="hero-left">
+      <div class="hero-inner">
+        <span class="tag" data-hero-fade>{t.tag}</span>
+        <div class="avatar" data-hero-fade>
+          <img src={asset('israa-260.webp')} alt={site.fullName} width="130" height="130" fetchpriority="high" decoding="async" />
+          <span class="status" title={t.available}></span>
+        </div>
+        <h1 class="hero-name" id="hero-h" data-hero-name>
+          <span class="line"><span>{t.name[0]}</span></span>
+          <span class="line"><em><span>{t.name[1]}</span></em></span>
+        </h1>
+        <p class="hero-desc" data-hero-fade>{t.heroLede}</p>
+        <div class="hero-btns" data-hero-fade>
+          <a class="btn light" href={site.whatsapp} target="_blank" rel="noopener">{t.ctaWhatsapp} <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn outline" href={`mailto:${site.email}`}>{t.ctaEmail}</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <StoreDash lang={lang} />
+    </div>
+  </section>
+
+  <section class="band" aria-label={t.toolsLabel}>
+    <div class="wrap stats">
+      <div class="stat" data-reveal><b><span data-count="3">3</span>+</b><span>{t.stats.stores}</span></div>
+      <div class="stat" data-reveal><b><span data-count="3">3</span>+</b><span>{t.stats.niches}</span></div>
+      <div class="stat" data-reveal><b>{t.basedValue}</b><span>{t.stats.based}</span></div>
+      <div class="stat" data-reveal><b><span data-count={t.services.length}>{t.services.length}</span></b><span>{t.stats.services}</span></div>
+    </div>
+    <div class="marquee">
+      <span class="marquee-label">{t.toolsLabel}</span>
+      <div class="marquee-viewport">
+        <div class="marquee-track" dir="ltr">
+          {[...tools, ...tools].map((tool, i) => <span class="tool-chip" aria-hidden={i >= tools.length ? 'true' : undefined}>{tool}</span>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" id="services" aria-labelledby="svc-h">
+    <div class="sec-head">
+      <div class="label">{t.servicesLabel}</div>
+      <h2 id="svc-h">{t.servicesTitle}</h2>
+    </div>
+    <div class="services">
+      {t.services.map((s, i) => (
+        <div class="svc" data-reveal>
+          <span class="svc-num">0{i + 1}</span>
+          <span class="svc-icon"><Icon name={s.icon} /></span>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section dark-section" aria-labelledby="work-h">
+    <div class="wrap">
+      <div class="sec-head split">
+        <div>
+          <div class="label">{t.workLabel}</div>
+          <h2 id="work-h">{t.workTitle}</h2>
+        </div>
+        <p>{t.workLede}</p>
+      </div>
+      <div class="stores">
+        {stores.map((s, i) => <StoreCard lang={lang} store={s} index={i} />)}
+      </div>
+      <div class="sec-foot"><a class="btn outline" href={path(lang, 'work')}>{t.seeAllWork} <span class="arrow" aria-hidden="true">→</span></a></div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="process-h">
+    <div class="sec-head">
+      <div class="label">{t.processLabel}</div>
+      <h2 id="process-h">{t.processTitle}</h2>
+    </div>
+    <ol class="process" data-process>
+      {t.process.map((p, i) => (
+        <li data-reveal>
+          <span class="step">{i + 1}</span>
+          <h3>{p.title}</h3>
+          <p>{p.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <Contact lang={lang} />
+</Base>

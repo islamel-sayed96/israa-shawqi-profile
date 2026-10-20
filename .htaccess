@@ -1,21 +1,17 @@
-# Compression
-<IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml application/manifest+json
-</IfModule>
+# Hostinger's "Deploy from GitHub" copies this repo into public_html as-is and
+# can't run a build. The built site lives in dist/, so serve every request
+# from there. dist/ is rebuilt and committed by .github/workflows/build.yml.
+DirectoryIndex index.html
+Options -Indexes
+ErrorDocument 404 /404.html
 
-# Browser caching
-<IfModule mod_expires.c>
-  ExpiresActive On
-  ExpiresByType text/html "access plus 0 seconds"
-  ExpiresByType image/webp "access plus 1 year"
-  ExpiresByType image/png "access plus 1 year"
-  ExpiresByType image/jpeg "access plus 1 year"
-  ExpiresByType image/x-icon "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 year"
-  ExpiresByType application/manifest+json "access plus 1 week"
-</IfModule>
+<IfModule mod_rewrite.c>
+    RewriteEngine On
 
-# Don't serve repo/backup files
-<FilesMatch "\.(zip|md)$">
-  Require all denied
-</FilesMatch>
+    # /about -> /about/ when it's a page folder in dist/
+    RewriteCond %{DOCUMENT_ROOT}/dist/$1 -d
+    RewriteRule ^(?!dist/)(.+[^/])$ /$1/ [R=301,L]
+
+    # Everything else is read from dist/
+    RewriteRule ^(?!dist/)(.*)$ dist/$1 [L]
+</IfModule>
