@@ -6,7 +6,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Israa Shawqi — Shopify Virtual Assistant</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="description" content="Israa Shawqi — Shopify store manager based in Dubai. Product management, order processing, customer support and store organization for e-commerce brands.">
+<meta name="theme-color" content="#2d6a4f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Israa Shawqi — Shopify Virtual Assistant">
+<meta property="og:description" content="I help e-commerce brands run and grow their Shopify stores efficiently.">
+<meta property="og:image" content="/web-app-manifest-512x512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="profile.webp" type="image/webp" fetchpriority="high">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --green: #2d6a4f;
@@ -529,6 +538,11 @@
   .hero-desc { animation-delay: 0.3s; opacity: 0; }
   .hero-btns { animation-delay: 0.4s; opacity: 0; }
 
+  @media (prefers-reduced-motion: reduce) {
+    .hero-left > * { animation: none; opacity: 1; }
+    * { transition: none !important; }
+  }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     .hero { grid-template-columns: 1fr; }
@@ -545,8 +559,9 @@
   }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 </head>
 <body>
 
@@ -554,7 +569,7 @@
 <section class="hero">
   <div class="hero-left">
     <div class="tag">Shopify Store Manager</div>
-    <img src="profile image.jpg" alt="Israa Shawqi" class="profile-img">
+    <img src="profile.webp" alt="Israa Shawqi" class="profile-img" width="130" height="130" fetchpriority="high" decoding="async">
     <h1 class="hero-name">Israa<br><span>Shawqi</span></h1>
     <p class="hero-desc">I help e-commerce brands run and grow their Shopify stores efficiently — from product management to order operations and store organization.</p>
     <div class="hero-btns">
@@ -647,13 +662,13 @@
   <div class="portfolio-grid">
     <div class="portfolio-card">
       <div class="portfolio-img auto">
-        <img src="Motrify.png" alt="Motrify dash-cam camera cars">
+        <img src="Motrify.webp" alt="Motrify dash-cam camera cars" width="800" height="450" loading="lazy" decoding="async">
       </div>
       <div class="portfolio-info">
         <div class="portfolio-niche">Automotive Tech • UAE</div>
         <div class="portfolio-name">Motrify</div>
         <p class="portfolio-desc">Premium dash cams and car accessories. Managed product listings, collections, and store operations.</p>
-        <a href="https://motrify.com" target="_blank" class="portfolio-link">Visit Store →</a>
+        <a href="https://motrify.com" target="_blank" rel="noopener" class="portfolio-link">Visit Store →</a>
         <div class="portfolio-tags">
           <span class="ptag">Products</span>
           <span class="ptag">Collections</span>
@@ -664,13 +679,13 @@
 
     <div class="portfolio-card">
       <div class="portfolio-img watch">
-        <img src="V8CHRONO.png" alt="V8CHRONO watch clock">
+        <img src="V8CHRONO.webp" alt="V8CHRONO watch clock" width="800" height="450" loading="lazy" decoding="async">
       </div>
       <div class="portfolio-info">
         <div class="portfolio-niche">Watches & Accessories • UAE</div>
         <div class="portfolio-name">V8CHRONO</div>
         <p class="portfolio-desc">Car-inspired watches and keychains. Handled product organization, listings, and order management.</p>
-        <a href="https://v8chrono.com" target="_blank" class="portfolio-link">Visit Store →</a>
+        <a href="https://v8chrono.com" target="_blank" rel="noopener" class="portfolio-link">Visit Store →</a>
         <div class="portfolio-tags">
           <span class="ptag">Listings</span>
           <span class="ptag">Orders</span>
@@ -681,13 +696,13 @@
 
     <div class="portfolio-card">
       <div class="portfolio-img pet">
-        <img src="zoomiezone.png" alt="zomiezone pet cat">
+        <img src="zoomiezone.webp" alt="zomiezone pet cat" width="800" height="450" loading="lazy" decoding="async">
       </div>
       <div class="portfolio-info">
         <div class="portfolio-niche">Pet Products • UAE</div>
         <div class="portfolio-name">ZoomieZone</div>
         <p class="portfolio-desc">Fun & interactive cat toys. Managed store setup, product pages, and customer operations.</p>
-        <a href="https://zomiezone.com" target="_blank" class="portfolio-link">Visit Store →</a>
+        <a href="https://zomiezone.com" target="_blank" rel="noopener" class="portfolio-link">Visit Store →</a>
         <div class="portfolio-tags">
           <span class="ptag">Setup</span>
           <span class="ptag">Products</span>
