@@ -12,7 +12,7 @@ const building = project.kind === 'progress';
 const badge = building ? t.live.building : t.live.preview;
 ---
 <a class:list={['browser', 'live', { big, building }]} href={project.url} target="_blank" rel="noopener"
-  aria-label={`${t.visit}: ${project.name}`} data-live={project.url}>
+  aria-label={`${t.visit}: ${project.name}`} data-live={project.url} data-still={project.live === false ? '' : undefined}>
   <span class="browser-bar" dir="ltr">
     <span class="dots"><i></i><i></i><i></i></span>
     <span class="url">
@@ -34,7 +34,7 @@ const badge = building ? t.live.building : t.live.preview;
         <span class="w-cursor"></span>
       </span>
     )}
-    <img class="shot real" alt="" aria-hidden="true" decoding="async" />
+    {project.live !== false && <img class="shot real" alt="" aria-hidden="true" decoding="async" />}
     <span class="hover-hint">{t.live.hover}</span>
   </span>
 </a>

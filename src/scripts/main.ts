@@ -169,6 +169,9 @@ function startLive(frame: HTMLElement) {
   const fallback = $<HTMLImageElement>('img.fallback[data-scroll]', frame);
   if (fallback) autoScroll(frame, fallback);
   typeUrl(frame);
+  // Live capture switched off for this project: keep the image, with a slow drift so it
+  // doesn't feel static.
+  if (frame.hasAttribute('data-still')) { frame.classList.add('still'); return; }
   frame.classList.add('loading');
 
   let attempt = 0;
