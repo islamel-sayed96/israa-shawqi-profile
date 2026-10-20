@@ -1,0 +1,19 @@
+---
+import LivePreview from './LivePreview.astro';
+import { ui, type Lang } from '../i18n/ui';
+import type { Project } from '../data/projects';
+const { lang, project, wide = false } = Astro.props as { lang: Lang; project: Project; wide?: boolean };
+const t = ui[lang];
+const p = t.projects[project.key];
+const building = project.kind === 'progress';
+---
+<article class:list={['project-card', { wide, building }]} data-reveal>
+  <LivePreview lang={lang} project={project} />
+  <div class="project-info">
+    <span class="eyebrow">{building ? <span class="now"><i></i>{t.kinds.progress}</span> : <>{t.kinds[project.kind]} · {p.niche}</>}</span>
+    <h3>{project.name}</h3>
+    <p>{p.text}</p>
+    <div class="ptags">{p.tags.map((tag) => <span>{tag}</span>)}</div>
+    <a class="link" href={project.url} target="_blank" rel="noopener" dir="ltr">{project.domain} <span class="arrow" aria-hidden="true">↗</span></a>
+  </div>
+</article>

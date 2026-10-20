@@ -1,15 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
 import StoreDash from '../components/StoreDash.astro';
-import StoreCard from '../components/StoreCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
 import Icon from '../components/Icon.astro';
 import Contact from '../components/Contact.astro';
 import { ui, path, asset, type Lang } from '../i18n/ui';
-import { site, tools } from '../data/site';
-import { stores } from '../data/stores';
+import { site, marqueeA, marqueeB, platformCount } from '../data/site';
+import { projects, storeCount } from '../data/projects';
 
 const { lang } = Astro.props as { lang: Lang };
 const t = ui[lang];
+const building = projects.filter((p) => p.kind === 'progress');
+const done = projects.filter((p) => p.kind !== 'progress');
+// Six-column grid: in-progress projects take half a row; the rest take a third,
+// and a short last row stretches so it doesn't leave a gap.
+const rem = done.length % 3;
+const wideFrom = rem === 0 ? done.length : done.length - rem;
 ---
 <Base lang={lang} page="" title={t.meta.home.title} description={t.meta.home.description}>
   <link slot="head" rel="preload" as="image" href={asset('israa-260.webp')} type="image/webp" fetchpriority="high" />
@@ -40,39 +46,48 @@ const t = ui[lang];
 
   <section class="band" aria-label={t.toolsLabel}>
     <div class="wrap stats">
-      <div class="stat" data-reveal><b><span data-count="3">3</span>+</b><span>{t.stats.stores}</span></div>
-      <div class="stat" data-reveal><b><span data-count="3">3</span>+</b><span>{t.stats.niches}</span></div>
+      <div class="stat" data-reveal><b><span data-count={storeCount}>{storeCount}</span>+</b><span>{t.stats.stores}</span></div>
+      <div class="stat" data-reveal><b><span data-count={projects.length}>{projects.length}</span></b><span>{t.stats.projects}</span></div>
+      <div class="stat" data-reveal><b><span data-count={platformCount}>{platformCount}</span></b><span>{t.stats.platforms}</span></div>
       <div class="stat" data-reveal><b>{t.basedValue}</b><span>{t.stats.based}</span></div>
-      <div class="stat" data-reveal><b><span data-count={t.services.length}>{t.services.length}</span></b><span>{t.stats.services}</span></div>
     </div>
     <div class="marquee">
       <span class="marquee-label">{t.toolsLabel}</span>
-      <div class="marquee-viewport">
-        <div class="marquee-track" dir="ltr">
-          {[...tools, ...tools].map((tool, i) => <span class="tool-chip" aria-hidden={i >= tools.length ? 'true' : undefined}>{tool}</span>)}
-        </div>
+      <div class="marquee-rows">
+        {[marqueeA, marqueeB].map((row, r) => (
+          <div class="marquee-viewport">
+            <div class:list={['marquee-track', { reverse: r === 1 }]}>
+              {[...row, ...row].map((tool, i) => <span class="tool-chip" aria-hidden={i >= row.length ? 'true' : undefined}>{tool}</span>)}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
   <section class="section wrap" id="services" aria-labelledby="svc-h">
-    <div class="sec-head">
-      <div class="label">{t.servicesLabel}</div>
-      <h2 id="svc-h">{t.servicesTitle}</h2>
+    <div class="sec-head split light">
+      <div>
+        <div class="label">{t.servicesLabel}</div>
+        <h2 id="svc-h">{t.servicesTitle}</h2>
+      </div>
+      <p>{t.servicesLede}</p>
     </div>
     <div class="services">
       {t.services.map((s, i) => (
-        <div class="svc" data-reveal>
+        <div class:list={['svc', { focus: i === 0 }]} data-reveal>
           <span class="svc-num">0{i + 1}</span>
+          {i === 0 && <span class="focus-badge">★ {t.focus}</span>}
           <span class="svc-icon"><Icon name={s.icon} /></span>
           <h3>{s.title}</h3>
           <p>{s.text}</p>
+          <div class="svc-tags">{s.tags.map((tag) => <span>{tag}</span>)}</div>
         </div>
       ))}
     </div>
   </section>
 
-  <section class="section dark-section" aria-labelledby="work-h">
+  <section class="section dark-section" id="work" aria-labelledby="work-h">
     <div class="wrap">
       <div class="sec-head split">
         <div>
@@ -81,8 +96,9 @@ const t = ui[lang];
         </div>
         <p>{t.workLede}</p>
       </div>
-      <div class="stores">
-        {stores.map((s, i) => <StoreCard lang={lang} store={s} index={i} />)}
+      <div class="projects">
+        {building.map((p) => <ProjectCard lang={lang} project={p} wide />)}
+        {done.map((p, i) => <ProjectCard lang={lang} project={p} wide={i >= wideFrom} />)}
       </div>
       <div class="sec-foot"><a class="btn outline" href={path(lang, 'work')}>{t.seeAllWork} <span class="arrow" aria-hidden="true">→</span></a></div>
     </div>

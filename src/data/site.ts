@@ -9,12 +9,19 @@ export const site = {
   whatsapp: 'https://wa.me/971544812887',
 };
 
-// Tools she works with, grouped for the About page. The flat list feeds the marquee.
+// Tools she works with, grouped for the About page. Labels for each group are in src/i18n/ui.ts.
 export const toolGroups = [
-  { key: 'store', tools: ['Shopify', 'Shopify Inbox', 'Adapt'] },
-  { key: 'fulfil', tools: ['Zendrop', 'DSers'] },
-  { key: 'workflow', tools: ['Notion', 'Trello', 'Google Sheets'] },
-  { key: 'content', tools: ['Canva', 'AI Tools'] },
+  { key: 'platforms', tools: ['Shopify', 'Salla', 'Wix', 'WordPress'] },
+  { key: 'payments', tools: ['Ziina', 'Stripe', 'Wise', 'Tabby', 'Tamara', 'PayPal'] },
+  { key: 'marketplaces', tools: ['Amazon Seller Central', 'Zendrop', 'DSers'] },
+  { key: 'meta', tools: ['Meta Ads Manager', 'Meta Business Suite', 'Meta Pixel', 'Facebook', 'Instagram', 'TikTok'] },
+  { key: 'code', tools: ['HTML', 'CSS', 'JavaScript', 'Frameworks'] },
+  { key: 'workflow', tools: ['Notion', 'Trello', 'Google Sheets', 'Shopify Inbox', 'Canva', 'AI Tools'] },
 ] as const;
 
-export const tools = toolGroups.flatMap((g) => g.tools);
+export type ToolGroupKey = (typeof toolGroups)[number]['key'];
+
+// Two marquee rows on the homepage.
+export const marqueeA = [...toolGroups[0].tools, ...toolGroups[1].tools, ...toolGroups[2].tools];
+export const marqueeB = [...toolGroups[3].tools, ...toolGroups[4].tools, ...toolGroups[5].tools];
+export const platformCount = toolGroups[0].tools.length + 1; // + Amazon

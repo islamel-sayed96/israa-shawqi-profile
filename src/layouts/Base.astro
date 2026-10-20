@@ -29,17 +29,17 @@ const jsonLd = {
       '@type': 'Person',
       '@id': `${origin}${path('en')}#israa`,
       name: site.fullName,
-      jobTitle: 'Shopify Store Manager',
+      jobTitle: 'E-commerce Store Manager',
       email: `mailto:${site.email}`,
       telephone: site.phoneHref,
       url: origin + path('en'),
       image: origin + asset('israa.jpg'),
       address: { '@type': 'PostalAddress', addressLocality: 'Dubai', addressCountry: 'AE' },
-      knowsAbout: ['Shopify', 'E-commerce operations', 'Product management', 'Order fulfillment', 'Customer support'],
+      knowsAbout: ['Shopify', 'Salla', 'Wix', 'WordPress', 'Amazon Seller Central', 'Meta Ads', 'Payment gateways', 'E-commerce operations', 'Product management', 'Order fulfillment'],
     },
     {
       '@type': 'ProfessionalService',
-      name: `${site.fullName} — Shopify Store Management`,
+      name: `${site.fullName} — E-commerce Store Management`,
       url: origin + path('en'),
       image: ogImage,
       telephone: site.phoneHref,
@@ -138,7 +138,6 @@ const jsonLd = {
     </div>
     <div class="wrap footer-bottom">
       <span>© {new Date().getFullYear()} · {t.footerRole}</span>
-      <span class="powered">Powered by <a href="https://islamshawqi.com" target="_blank" rel="noopener">Islam Shawqi</a></span>
     </div>
   </footer>
 

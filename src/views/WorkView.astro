@@ -1,8 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { ui, asset, type Lang } from '../i18n/ui';
-import { stores } from '../data/stores';
+import LivePreview from '../components/LivePreview.astro';
+import { ui, type Lang } from '../i18n/ui';
+import { projects } from '../data/projects';
 
 const { lang } = Astro.props as { lang: Lang };
 const t = ui[lang];
@@ -15,35 +16,23 @@ const t = ui[lang];
   </section>
 
   <div class="wrap cases">
-    {stores.map((store, i) => {
-      const s = t.stores[store.key];
+    {projects.map((project, i) => {
+      const p = t.projects[project.key];
+      const building = project.kind === 'progress';
       return (
         <article class="case" data-reveal>
-          <a class="browser big" href={store.url} target="_blank" rel="noopener" aria-label={`${t.visit}: ${store.name}`} data-tilt>
-            <span class="browser-bar" dir="ltr">
-              <span class="dots"><i></i><i></i><i></i></span>
-              <span class="url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>{store.domain}</span>
-            </span>
-            <span class="browser-view">
-              <img
-                src={asset(`work/${store.image}-1400.webp`)}
-                srcset={`${asset(`work/${store.image}-800.webp`)} 800w, ${asset(`work/${store.image}-1400.webp`)} 1400w`}
-                sizes="(max-width: 900px) 92vw, 760px"
-                alt={`${store.name} — ${s.niche}`}
-                width="1400" height="788" loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
-            </span>
-          </a>
+          <LivePreview lang={lang} project={project} big eager={i === 0} />
           <div class="case-info">
-            <span class="case-num">0{i + 1}</span>
-            <h2>{store.name}</h2>
+            <span class="case-num">{String(i + 1).padStart(2, '0')}</span>
+            <h2>{project.name}</h2>
             <dl class="facts">
-              <div><dt>{t.nicheLabel}</dt><dd>{s.niche}</dd></div>
-              <div><dt>{t.marketLabel}</dt><dd>{t.market}</dd></div>
+              <div><dt>{t.typeLabel}</dt><dd>{building ? t.kinds.progress : t.kinds[project.kind]}</dd></div>
+              <div><dt>{t.statusLabel}</dt><dd class:list={['state', { progress: building }]}><i></i>{building ? t.statusProgress : t.statusDone}</dd></div>
             </dl>
-            <p>{s.text}</p>
+            <p>{building ? p.text : `${p.niche}. ${p.text}`}</p>
             <h3>{t.handledTitle}</h3>
-            <ul class="checks">{s.handled.map((h) => <li>{h}</li>)}</ul>
-            <a class="btn solid" href={store.url} target="_blank" rel="noopener">{t.visit} <span class="arrow" aria-hidden="true">↗</span></a>
+            <ul class="checks">{p.handled.map((h) => <li>{h}</li>)}</ul>
+            <a class="btn solid" href={project.url} target="_blank" rel="noopener">{t.visit} <span class="arrow" aria-hidden="true">↗</span></a>
           </div>
         </article>
       );

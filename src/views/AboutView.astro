@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { ui, asset, type Lang } from '../i18n/ui';
 import { site, toolGroups } from '../data/site';
-import { stores } from '../data/stores';
+import { projects, storeCount } from '../data/projects';
 
 const { lang } = Astro.props as { lang: Lang };
 const t = ui[lang];
@@ -19,14 +19,18 @@ const t = ui[lang];
       <h1 data-hero-fade>{t.aboutTitle}</h1>
       {t.bio.map((p) => <p data-hero-fade>{p}</p>)}
       <div class="mini-stats" data-hero-fade>
-        <div><b>3+</b><span>{t.stats.stores}</span></div>
+        <div><b>{storeCount}+</b><span>{t.stats.stores}</span></div>
+        <div><b>{projects.length}</b><span>{t.stats.projects}</span></div>
         <div><b>{t.basedValue}</b><span>{t.stats.based}</span></div>
       </div>
     </div>
   </section>
 
   <section class="section wrap" aria-labelledby="tools-h">
-    <div class="sec-head"><h2 id="tools-h">{t.toolsTitle}</h2></div>
+    <div class="sec-head split light">
+      <h2 id="tools-h">{t.toolsTitle}</h2>
+      <p>{t.toolsLede}</p>
+    </div>
     <div class="toolkit">
       {toolGroups.map((g) => (
         <div class="tool-group" data-reveal>
@@ -43,10 +47,10 @@ const t = ui[lang];
       <ul class="checks light">{t.why.map((w) => <li>{w}</li>)}</ul>
     </div>
     <div class="niches">
-      {stores.map((s) => (
-        <a class="niche" href={s.url} target="_blank" rel="noopener" data-reveal>
-          <span>{t.stores[s.key].niche}</span>
-          <b>{s.name}</b>
+      {projects.map((p) => (
+        <a class="niche" href={p.url} target="_blank" rel="noopener" data-reveal>
+          <span>{p.kind === 'progress' ? t.kinds.progress : t.projects[p.key].niche}</span>
+          <b>{p.name}</b>
           <span class="arrow" aria-hidden="true">↗</span>
         </a>
       ))}

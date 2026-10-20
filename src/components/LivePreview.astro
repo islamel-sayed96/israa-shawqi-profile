@@ -1,0 +1,40 @@
+---
+// A browser window showing a project. The visitor's browser fetches a fresh screenshot of
+// the live site and scrolls through it slowly (see "Live previews" in src/scripts/main.ts).
+// Until that arrives, or if it can't, the fallback image shows; projects with no fallback
+// show an animated wireframe of a site being built.
+import { ui, asset, type Lang } from '../i18n/ui';
+import type { Project } from '../data/projects';
+
+const { lang, project, big = false, eager = false } = Astro.props as { lang: Lang; project: Project; big?: boolean; eager?: boolean };
+const t = ui[lang];
+const building = project.kind === 'progress';
+const badge = building ? t.live.building : t.live.preview;
+---
+<a class:list={['browser', 'live', { big, building }]} href={project.url} target="_blank" rel="noopener"
+  aria-label={`${t.visit}: ${project.name}`} data-live={project.url}>
+  <span class="browser-bar" dir="ltr">
+    <span class="dots"><i></i><i></i><i></i></span>
+    <span class="url">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      <span data-typed={project.domain}>{project.domain}</span>
+    </span>
+    <span class="live-badge" data-badge data-label-live={t.live.live}><i></i><span>{badge}</span></span>
+    <span class="load-bar" aria-hidden="true"></span>
+  </span>
+  <span class="browser-view" data-view>
+    {project.fallback ? (
+      <img class:list={['shot', 'fallback', { fit: !project.tall }]} src={asset(project.fallback)} alt={`${project.name} — ${t.projects[project.key].niche}`}
+        width="1000" height={project.tall ? undefined : 563} loading={eager ? 'eager' : 'lazy'} decoding="async" data-scroll={project.tall ? '' : undefined} />
+    ) : (
+      <span class="wire" aria-hidden="true">
+        <span class="w-nav"><b>{project.name}</b><i></i><i></i><i></i></span>
+        <span class="w-hero"><span class="w-lines"><i></i><i></i><i class="w-btn"></i></span><span class="w-img"></span></span>
+        <span class="w-grid"><i></i><i></i><i></i><i></i></span>
+        <span class="w-cursor"></span>
+      </span>
+    )}
+    <img class="shot real" alt="" aria-hidden="true" decoding="async" />
+    <span class="hover-hint">{t.live.hover}</span>
+  </span>
+</a>
