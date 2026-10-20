@@ -20,14 +20,16 @@ export type Project = {
   fallback?: string;
   tall?: boolean;
   live?: boolean;
+  /** Change this (any text) to force a fresh live capture, e.g. right after the site goes live. */
+  refresh?: string;
 };
 
 export const projects: Project[] = [
-  { key: 'framezone', name: 'FrameZone', url: 'https://framezone.org/', domain: 'framezone.org', kind: 'progress' },
+  { key: 'framezone', name: 'FrameZone', url: 'https://framezone.org/', domain: 'framezone.org', kind: 'progress', refresh: 'published' },
   { key: 'kira', name: 'Kira UAE', url: 'https://kira-uae.com/', domain: 'kira-uae.com', kind: 'progress' },
   { key: 'motrify', name: 'Motrify', url: 'https://motrify.com/', domain: 'motrify.com', kind: 'store', fallback: 'work/motrify-1400.webp', live: false },
   { key: 'v8chrono', name: 'V8CHRONO', url: 'https://v8chrono.com/', domain: 'v8chrono.com', kind: 'store', fallback: 'work/v8chrono-1400.webp' },
-  { key: 'zoomiezone', name: 'ZoomieZone', url: 'https://zomiezone.com/', domain: 'zomiezone.com', kind: 'store', fallback: 'work/zoomiezone-1400.webp' },
+  { key: 'zoomiezone', name: 'ZoomieZone', url: 'https://zomiezone.com/', domain: 'zomiezone.com', kind: 'store', fallback: 'work/zoomiezone-1400.webp', refresh: 'published' },
   { key: 'luvalle', name: 'Luvalle Beauty Center', url: 'https://luvallebeautycenter.com/', domain: 'luvallebeautycenter.com', kind: 'website', fallback: 'work/luvalle.webp', tall: true },
   { key: 'albyan', name: 'Al Bayan Institute', url: 'https://albyan.institute/', domain: 'albyan.institute', kind: 'website', fallback: 'work/albyan.webp', live: false },
 ];

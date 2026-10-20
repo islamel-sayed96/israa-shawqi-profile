@@ -118,8 +118,15 @@ if (dash && !reduce) {
    fallback image or the "being built" wireframe stays in place. Tall images scroll slowly
    from top to bottom and back, like someone browsing; hovering pauses them. */
 const SHOT_W = 1000;
-const shotUrl = (site: string, attempt: number) =>
-  `https://s0.wp.com/mshots/v1/${encodeURIComponent(site)}?w=${SHOT_W}&h=2400&vpw=1280&vph=3072${attempt ? `&r=${attempt}` : ''}`;
+// mShots keeps the first capture it makes of a URL. Adding a version to the captured URL
+// makes it take a fresh one: it changes every week, and a project can add its own
+// `refresh` value (src/data/projects.ts) to force a new capture right away, e.g. after a
+// site goes live.
+const WEEK = Math.floor(Date.now() / (7 * 24 * 3600 * 1000));
+const shotUrl = (site: string, attempt: number, refresh = '') => {
+  const target = `${site}${site.includes('?') ? '&' : '?'}pv=${WEEK}${refresh ? `-${refresh}` : ''}`;
+  return `https://s0.wp.com/mshots/v1/${encodeURIComponent(target)}?w=${SHOT_W}&h=2400&vpw=1280&vph=3072${attempt ? `&r=${attempt}` : ''}`;
+};
 
 function autoScroll(frame: HTMLElement, img: HTMLImageElement) {
   if (reduce) return;
@@ -190,9 +197,9 @@ function startLive(frame: HTMLElement) {
   probe.onerror = () => retry();
   const retry = () => {
     if (++attempt > 5) { frame.classList.remove('loading'); return; }
-    setTimeout(() => (probe.src = shotUrl(site, attempt)), 4000);
+    setTimeout(() => (probe.src = shotUrl(site, attempt, frame.dataset.refresh)), 4000);
   };
-  probe.src = shotUrl(site, 0);
+  probe.src = shotUrl(site, 0, frame.dataset.refresh);
 }
 
 const liveObserver = new IntersectionObserver((entries) => {

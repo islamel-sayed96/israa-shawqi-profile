@@ -12,7 +12,7 @@ const building = project.kind === 'progress';
 const badge = building ? t.live.building : t.live.preview;
 ---
 <a class:list={['browser', 'live', { big, building }]} href={project.url} target="_blank" rel="noopener"
-  aria-label={`${t.visit}: ${project.name}`} data-live={project.url} data-still={project.live === false ? '' : undefined}>
+  aria-label={`${t.visit}: ${project.name}`} data-live={project.url} data-still={project.live === false ? '' : undefined} data-refresh={project.refresh}>
   <span class="browser-bar" dir="ltr">
     <span class="dots"><i></i><i></i><i></i></span>
     <span class="url">
